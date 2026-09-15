@@ -7,8 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Profile {
+  id        String   @id
+  email     String?
+  fullName  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  transactions Transaction[]
+  budgets      Budget[]
+  backups      Backup[]
+}
+
 model Transaction {
   id          String   @id @default(cuid())
+  userId      String?
   merchant    String
   category    String
   amount      Decimal  @db.Decimal(12, 2)
@@ -16,16 +29,34 @@ model Transaction {
   occurredAt  DateTime @default(now())
   note        String?
   createdAt   DateTime @default(now())
+  user        Profile? @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@index([occurredAt])
+  @@index([userId, occurredAt])
   @@index([category])
 }
 
 model Budget {
   id        String   @id @default(cuid())
-  category  String   @unique
+  userId    String?
+  category  String
   amount    Decimal  @db.Decimal(12, 2)
   color     String   @default("#7B61FF")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user      Profile? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, category])
+}
+
+model Backup {
+  id           String   @id @default(cuid())
+  userId       String
+  storagePath  String   @unique
+  fileName     String
+  sizeBytes    Int
+  contentType  String   @default("application/json")
+  createdAt    DateTime @default(now())
+  user         Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
 }

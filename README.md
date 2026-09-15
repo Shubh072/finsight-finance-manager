@@ -1,52 +1,43 @@
 # Finsight Finance Manager
 
-A focused personal finance dashboard built with Next.js, Prisma, and PostgreSQL. The interface runs with preview data out of the box, then automatically reads from Postgres when `DATABASE_URL` is configured.
+A personal finance dashboard built with Next.js, Prisma, Supabase Postgres, Supabase Auth, and private Supabase Storage backups.
+
+## Supabase setup
+
+The app uses the Supabase project database for `Profile`, `Transaction`, `Budget`, and `Backup` records. It uses Supabase Auth for email/password accounts and a private Storage bucket for backup JSON files.
+
+1. In Supabase, open **Project Settings → API** and copy the **Project URL**, **anon public key**, and **service_role key**.
+2. Run [`supabase/setup.sql`](./supabase/setup.sql) in the Supabase SQL Editor to create the private `finsight-backups` bucket.
+3. Add these variables to Vercel (Preview and Production):
+
+```env
+DATABASE_URL=your-supabase-postgres-connection-string
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-public-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+SUPABASE_BACKUP_BUCKET=finsight-backups
+```
+
+The service-role key must stay server-only. Never prefix it with `NEXT_PUBLIC_`, commit it, or place it in client code.
 
 ## Local development
 
 ```bash
 pnpm install
-cp .env.example .env
+pnpm db:push
 pnpm dev
 ```
 
-Open `http://localhost:3000`.
-
-## Connect a database
-
-Create a hosted PostgreSQL database with **Vercel Postgres**, **Neon**, **Supabase**, or **Railway**. Copy its pooled connection string into `DATABASE_URL`:
-
-```env
-DATABASE_URL="postgresql://user:password@host:5432/finsight?sslmode=require"
-```
-
-Push the Prisma schema to the database:
-
-```bash
-pnpm db:push
-```
-
-The current schema stores `Transaction` and `Budget` records. The dashboard endpoint at `/api/dashboard` reads both tables and calculates budget usage by category.
+The dashboard opens at `http://localhost:3000`. Without public Supabase keys, the dashboard still renders preview data; once the public URL and anon key are present, the **Sign in** control enables Supabase email/password auth. Signed-in users can create a private backup from the **Backup** control. Backups contain that user’s transactions and budgets and are stored under `user-id/filename.json` in the private bucket. Backup metadata is stored in the `Backup` table.
 
 ## Deploy to Vercel
 
-1. Push this repository to GitHub.
-2. In Vercel, choose **New Project** and import `Shubh072/finsight-finance-manager`.
-3. Keep the framework preset as **Next.js**. The included `vercel.json` uses `prisma generate && next build` automatically.
-4. Add `DATABASE_URL` under **Settings → Environment Variables** for Preview and Production.
-5. Deploy. If the database is new, run `pnpm db:push` once against its connection string before opening the deployed site.
+1. Import `Shubh072/finsight-finance-manager` into Vercel.
+2. Add all five environment variables above.
+3. Deploy. The included build command runs `prisma generate && next build`.
+4. If the database schema has not been applied, run `pnpm db:push` once using the Supabase connection string.
+5. In Supabase Auth, set the production **Site URL** and redirect URLs to your Vercel domain.
 
-You can also deploy from the CLI:
+## Security note
 
-```bash
-pnpm dlx vercel
-pnpm dlx vercel env add DATABASE_URL production
-pnpm dlx vercel --prod
-```
-
-## Data model
-
-- `Transaction`: merchant, category, amount, type (`expense` or `income`), date, and note.
-- `Budget`: category, monthly amount, display color, and calculated spend.
-
-For production, use a pooled `DATABASE_URL` at runtime and keep a direct/unpooled connection string for Prisma CLI migrations if your provider supplies both.
+The database password was supplied in the setup request and is used only in the ignored local `.env` file. Because credentials shared in chat should be treated as exposed, rotate the Supabase database password after setup, then update `DATABASE_URL` in Vercel and locally.

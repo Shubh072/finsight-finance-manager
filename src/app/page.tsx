@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ArrowDownRight, ArrowUpRight, Bell, ChevronDown, CreditCard, DollarSign, LayoutDashboard, List, Plus, Settings, ShoppingBag, SlidersHorizontal, Target, TrendingUp, Utensils, Wallet, Zap } from 'lucide-react';
+import AuthControls from '@/components/AuthControls';
 
 type Transaction = { id:string; merchant:string; category:string; amount:number; type:string; occurredAt:string };
 type Budget = { category:string; amount:number; spent:number; color:string };
@@ -29,7 +30,7 @@ export default function Home() {
       <div className="sidebar-bottom">Your money should work as hard as you do.<div className="profile"><div className="avatar">JD</div><div><strong style={{color:'#1f322a'}}>Jordan Davis</strong><br/>Personal account</div></div></div>
     </aside>
     <main className="main">
-      <header className="topbar"><div><div className="eyebrow">Tuesday, September 15, 2026</div><h1>Good morning, Jordan<span style={{color:'#a7c6b7'}}>.</span></h1></div><div className="top-actions"><button className="icon-btn"><Bell size={16}/></button><button className="icon-btn"><Settings size={16}/></button><button className="add-btn"><Plus size={15}/> Add transaction</button></div></header>
+      <header className="topbar"><div><div className="eyebrow">Tuesday, September 15, 2026</div><h1>Good morning, Jordan<span style={{color:'#a7c6b7'}}>.</span></h1></div><div className="top-actions"><button className="icon-btn"><Bell size={16}/></button><button className="icon-btn"><Settings size={16}/></button><button className="add-btn"><Plus size={15}/> Add transaction</button><AuthControls /></div></header>
       <section className="stats">
         <div className="card stat"><span className="stat-label">Available balance</span><strong className="stat-value">$8,420.68</strong><span className="stat-meta good"><ArrowUpRight size={13}/> 12.4% from last month</span></div>
         <div className="card stat"><span className="stat-label">Spent this month</span><strong className="stat-value">{money(expenses || 948.71)}</strong><span className="stat-meta warn"><ArrowDownRight size={13}/> 4.8% more than usual</span></div>
