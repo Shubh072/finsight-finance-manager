@@ -1,0 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root { --ink:#15251f; --muted:#789087; --line:#e5ece8; --cream:#f7faf7; --white:#fff; --mint:#dff8e9; --green:#23835d; --purple:#7b61ff; }
+* { box-sizing:border-box; }
+html, body { margin:0; min-height:100%; background:var(--cream); color:var(--ink); }
+body { font-family:'Manrope', sans-serif; }
+button { font:inherit; cursor:pointer; }
+.app { min-height:100vh; display:flex; }
+.sidebar { width:245px; background:#fff; border-right:1px solid var(--line); padding:28px 16px; display:flex; flex-direction:column; }
+.brand { padding:0 14px 34px; display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-.04em; font-size:21px; }
+.brand-mark { width:27px; height:27px; border-radius:9px; background:var(--ink); color:#baf4d1; display:grid; place-items:center; font-size:16px; }
+.nav { display:grid; gap:5px; }
+.nav button { border:0; background:transparent; text-align:left; padding:12px 14px; color:#71857d; font-size:13px; font-weight:600; border-radius:10px; display:flex; gap:12px; align-items:center; }
+.nav button.active { background:#eaf8f0; color:#247954; }
+.nav button:hover { background:#f1f6f3; color:var(--ink); }
+.nav svg { width:17px; }
+.sidebar-bottom { margin-top:auto; border-top:1px solid var(--line); padding:20px 14px 0; color:#80928b; font-size:11px; line-height:1.6; }
+.avatar { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:#f5c2b8; color:#78463d; font-weight:800; }
+.profile { display:flex; gap:10px; align-items:center; color:var(--ink); margin-top:14px; font-size:12px; }
+.main { flex:1; padding:34px 42px 48px; max-width:1400px; }
+.topbar { display:flex; justify-content:space-between; align-items:center; margin-bottom:35px; }
+.eyebrow { color:#8a9c94; text-transform:uppercase; font:500 10px 'DM Mono', monospace; letter-spacing:.12em; }
+h1 { font-size:30px; line-height:1.1; letter-spacing:-.055em; margin:8px 0 0; }
+.top-actions { display:flex; gap:10px; align-items:center; }
+.icon-btn { border:1px solid var(--line); background:white; width:39px; height:39px; border-radius:10px; color:#799087; display:grid; place-items:center; }
+.add-btn { background:var(--ink); border:0; color:white; border-radius:10px; padding:11px 16px; font-size:12px; font-weight:700; display:flex; gap:8px; align-items:center; }
+.add-btn:hover { background:#28493e; }
+.stats { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:23px; }
+.card { background:var(--white); border:1px solid var(--line); border-radius:15px; padding:20px; }
+.stat { min-height:132px; display:flex; flex-direction:column; justify-content:space-between; }
+.stat-label { font-size:11px; color:#83958e; font-weight:600; }
+.stat-value { font-size:25px; font-weight:800; letter-spacing:-.06em; }
+.stat-meta { font-size:10px; color:#779087; display:flex; align-items:center; gap:5px; }
+.stat-meta.good { color:#34926c; }
+.stat-meta.warn { color:#d37a40; }
+.grid { display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
+.card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
+.card-title { font-size:14px; font-weight:800; letter-spacing:-.025em; }
+.card-link { font-size:11px; color:#5d8474; font-weight:700; }
+.chart-card { min-height:300px; }
+.chart { height:195px; position:relative; padding:0 4px; }
+.chart svg { width:100%; height:100%; overflow:visible; }
+.chart-labels { display:flex; justify-content:space-between; color:#a0afa9; font:10px 'DM Mono', monospace; margin-top:8px; }
+.legend { display:flex; gap:16px; font-size:10px; color:#8a9b94; }
+.dot { display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px; }
+.budget-card { min-height:300px; }
+.budget { margin:19px 0; }
+.budget-row { display:flex; justify-content:space-between; font-size:11px; font-weight:700; margin-bottom:8px; }
+.budget-row span:last-child { color:#8a9b94; font-weight:500; }
+.progress { height:7px; border-radius:10px; background:#edf2ef; overflow:hidden; }
+.progress > span { display:block; height:100%; border-radius:10px; }
+.bottom-grid { margin-top:18px; display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
+.transactions { min-height:265px; }
+.transaction { display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid #eff3f1; }
+.transaction:last-child { border:0; }
+.tx-icon { width:34px; height:34px; border-radius:10px; background:#f3f6f4; display:grid; place-items:center; color:#5c8d78; }
+.tx-copy { flex:1; min-width:0; }
+.tx-name { font-weight:700; font-size:12px; }
+.tx-category { color:#98a8a1; font-size:10px; margin-top:3px; }
+.tx-amount { font:500 13px 'DM Mono', monospace; }
+.tx-amount.income { color:#2f996c; }
+.summary { background:#1e382e; color:white; border-radius:15px; padding:22px; position:relative; overflow:hidden; min-height:265px; }
+.summary:after { content:''; width:200px; height:200px; position:absolute; right:-70px; bottom:-80px; border:1px solid rgba(191,244,210,.2); border-radius:50%; box-shadow:0 0 0 28px rgba(191,244,210,.05),0 0 0 56px rgba(191,244,210,.04); }
+.summary h3 { margin:11px 0 7px; font-size:21px; letter-spacing:-.05em; max-width:220px; }
+.summary p { color:#a9c2b6; font-size:11px; line-height:1.6; max-width:220px; margin:0; }
+.summary .pill { display:inline-block; margin-top:24px; color:#c5f7d5; font-size:10px; border:1px solid rgba(197,247,213,.25); border-radius:20px; padding:8px 11px; }
+@media (max-width:900px) { .sidebar { width:70px; padding:24px 10px; } .brand { padding:0 11px 32px; } .brand span, .nav button span, .sidebar-bottom { display:none; } .nav button { justify-content:center; padding:12px; } .profile { justify-content:center; } .main { padding:26px 20px; } }
+@media (max-width:680px) { .main { padding:22px 14px; } .topbar { align-items:flex-start; } h1 { font-size:24px; } .stats { grid-template-columns:repeat(2,1fr); } .grid, .bottom-grid { grid-template-columns:1fr; } .top-actions .icon-btn { display:none; } .add-btn { padding:10px 12px; } }
